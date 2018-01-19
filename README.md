@@ -13,6 +13,8 @@ $./Main
 
 To run the protocole with the profiler, use "makefile_with_profiling" instead.
 
+By default, the protocole is run with parameters from specification, with prime of size 503. To run any other parameters, just uncomment the right set in the Main.c file.
+
 ### Content
 
 Header.h with declarations.
