@@ -7,7 +7,7 @@ Supersingular isogeny graph key exchange, using prime numbers (2,3) as in the sp
 Contains a makefile.
 To run the protocole, type
 
-$ make \n
+$ make
 
 $./Main
 
@@ -32,3 +32,5 @@ pk_sk_param.c  contains methods to initialize, set and clear public parameters, 
 Main.c contains wrappers for key generation and key exchange, and a set of tests to run the protocole.
 
 Makefile 
+
+Rapport_Mathilde.pdf contains a short summary of mathematical background around isogeny graphs, a description of the key exchange protocol, some optimization technics, and a more detailled explaination from the code, as well as performances comparisons. And very nice graphics.
