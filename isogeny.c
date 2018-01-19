@@ -86,6 +86,7 @@ void three_iso_curve( curve *F, fp2 *K1, fp2 *K2,
 	point* P, mpz_t p ) {
 	/* Sets F as the three-isogenous curve, ie F = E/<P>,
 	where P has order 3.
+
 	WATCH OUT : curve will be in the form (A+ : A-) = (A+2C : A-2C)
 	*/
 	fp2 t0, t1, t2, t3, t4;
@@ -130,7 +131,9 @@ void three_iso_eval( point *phiP,
 	fp2 *K1, fp2* K2, point *P, mpz_t p ) {
 	/* Sets phiP as phi(P), where phi is a three-isogeny,
 	described by K1 and K2.
-	Note : Does not follows exactly the specification, error on line 3.
+
+	Note : Does not follows exactly the specification, 
+	error on line 3 (t2->t0).
 	*/
 	fp2 t0, t1, t2;
 	fp2_init_none(&t0);
@@ -211,6 +214,7 @@ void three_e_iso( curve *F, point *phiP1, point *phiP2, point *phiP3,
 	int e3, mpz_t p ) {
 	/* Sets F as the (3^e3)-isogenous curve, ie F = E/<S>,
 	where S has order 3^e3 in E.
+	
 	WATCH OUT E and F are in the form AplusAmoins !
 	*/
 	point T;
@@ -247,7 +251,7 @@ void three_e_iso( curve *F, point *phiP1, point *phiP2, point *phiP3,
 }
 
 /* ---------------------------------------------------------
-                     GENRALIZED PART
+                    GENERALIZED PART
 -----------------------------------------------------------*/
 
 void kernel_point( int d, point ker[d], point *G, curve *F, mpz_t p ) {

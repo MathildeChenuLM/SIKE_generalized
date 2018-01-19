@@ -17,7 +17,7 @@
 
 
 /* --------------------------------------------------------
-                      PUBLIC KEY
+ 					PUBLIC KEY
 ----------------------------------------------------------*/
 
 void pk_init_none( pk *PK ) {
@@ -51,7 +51,7 @@ void pk_print( pk *PK ) {
 }
 
 /* --------------------------------------------------------
-                     SECRET KEY
+                    SECRET KEY
 ----------------------------------------------------------*/
 
 void sk_init( sk *SK, mpz_t secret ) {
@@ -66,7 +66,7 @@ void sk_clear( sk *SK ) {
 }
 
 /* --------------------------------------------------------
-                      PARAMETERS SETTING
+            	PARAMETERS SETTING
 ----------------------------------------------------------*/
 
 void init_parameters( parameters *param ) {
@@ -123,9 +123,6 @@ void clear_parameters( parameters *param ) {
 	fp2_clear( &(param->xQB) );
 	fp2_clear( &(param->xRB) );
 }
-
-
-
 
 /* --------------------------------------------------------
                	KEY GENERATION REGULAR
@@ -209,7 +206,7 @@ void isogen_three( pk *PK3, sk *SK3, parameters *param ) {
 }
 
 /* --------------------------------------------------------
-               		KEY EXCHANGE REGULAR
+               	KEY EXCHANGE REGULAR
 ----------------------------------------------------------*/
 
 void isoex_two( fp2 *j, sk *SK2, pk *PK3, parameters *param ) {
@@ -328,26 +325,6 @@ void isogen_Alice( pk *PKA, sk *SKA, parameters *param ) {
 	Ladder3pt_without_conversion( &R, 
 		(SKA->secret), &(param->xPA), &(param->xQA), &(param->xRA), &E, (param->p) );
 	// Now R = [secret]PA + QA
-	//point_normalize(&R, &R, param->p); //debug
-	//printf("R : \n");
-	//point_print(&R);
-
-	//debug
-	/*
-	mpz_t m;
-	mpz_init(m);
-	mpz_ui_pow_ui( m, param->pA, param->eA );
-	//mpz_ui_pow_ui( m, 3, 6);
-	point Test;
-	point_init_normalize(&Test, &(param->xQA), param->p );
-	Ladder( &Test, &R, &E, m, param->p ); 
-	printf("Torsion test :\n"); //debug
-	point_normalize( &Test, &Test, param->p );
-	point_print(&Test);
-	mpz_clear(m);
-	point_clear(&Test);
-	*/
-	//end debug
 
 	curve F;
 	curve_init_none( &F );
@@ -357,7 +334,6 @@ void isogen_Alice( pk *PKA, sk *SKA, parameters *param ) {
 	mpz_init(q);
 	
 	for( int i = ( (param->eA) - 1); i>= 0; i-- ) {
-		//printf("i %d :\n", i);
 		curve_from_Alpha( &F, &Beta, param->p ); 
 	 	// WATCH OUT ! F will be in the form ( A+2C, 4C ) !	
 	 	mpz_ui_pow_ui( q, (param->pA), i );
@@ -369,7 +345,6 @@ void isogen_Alice( pk *PKA, sk *SKA, parameters *param ) {
 	 		&S, &F, &P1, &P2, &P3, 
 	 		param->p, ( (param->pA)-1)/2 ); 
 	}
-	//debug
 
 	point_normalize_X( &(PKA->beta), &Beta, param->p );
 	point_normalize_X( &(PKA->x1), &P1, param->p );
@@ -420,8 +395,6 @@ void isogen_Bob( pk *PKB, sk *SKB, parameters *param ) {
 	mpz_init(q);
 	
 	for( int i = ( (param->eB) - 1 ); i>= 0; i-- ) {
-		//printf("i %d :\n", i); //debug
-
 		curve_from_Alpha( &F, &Beta, param->p ); 
 		// WATCH OUT ! F will be in the form ( A+2C, 4C ) !
 
@@ -449,6 +422,10 @@ void isogen_Bob( pk *PKB, sk *SKB, parameters *param ) {
 	point_clear(&P3);
 
 }
+
+/* --------------------------------------------------------
+               	KEY EXCHANGE GENERAL
+----------------------------------------------------------*/
 
 void isoex_Alice( fp2 *jA, pk *PKB, sk *SKA, parameters *param ) {
 	/* Key exchange for any odd isogeny.
@@ -539,6 +516,7 @@ void isoex_Bob( fp2 *jB, pk *PKA, sk *SKB, parameters *param ) {
 			&S, &F,
 			param->p, ( (param->pB)-1)/2 ); 
 	}
+
 	curve EAB;
 	curve_init_none( &EAB );
 	curve_from_Alpha( &EAB, &Beta, param->p );

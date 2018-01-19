@@ -55,6 +55,7 @@ void xADD( point *A, point *P, point *Q, point *R, mpz_t p ) {
 
 void xDBL( point *R, point *P, curve *F, mpz_t p ) {
 	/* Sets R = 2P on group F.
+
 	WATCH OUT ! F has to be in the form AplusC = (A+2C : 4C).
 	*/
 	fp2 t0, t1;
@@ -83,6 +84,7 @@ void xDBL( point *R, point *P, curve *F, mpz_t p ) {
 
 void xDBLe( point *R, point *P, curve *F, mpz_t p, int e ) {
 	/* Sets R = 2^eP on group F.
+
 	WATCH OUT ! F has to be in the form AplusC = (A+2C : 4C).
 	*/
 
@@ -147,6 +149,7 @@ void xDBLADD( point * twoP, point *PplusQ,
 void xTPL( point *R, point *P, curve *F, mpz_t p ) {
 	/*
 	Sets R = 3P on group F.
+
 	WATCH OUT ! F has to be in the form AplusAminus.
 	*/
 	fp2 t0, t1, t2, t3, t4, t5, t6;
@@ -191,11 +194,11 @@ void xTPL( point *R, point *P, curve *F, mpz_t p ) {
 	fp2_clear(&t4);
 	fp2_clear(&t5);
 	fp2_clear(&t6);
-
 }
 
 void xTPLe( point *R, point *P, curve *F, mpz_t p, int e ) {
 	/* Sets R = 3eP on group F.
+
 	WATCH OUT ! F has to be in the form AplusAminus.
 	*/
 	point T;
@@ -429,8 +432,8 @@ void criss_cross( point *S, point *P, point *Q, mpz_t p ) {
 
 void curve_from_alpha( curve *F, fp2 *alpha, mpz_t p ) {
 	/* Sets F as the curve having (alpha : 1) as two torsion point.
+
 	WATCH OUT ! F will be in the form ( A+2C, 4C ) !
-	NOTE : needs alpha as an element from fp2. 
 	*/
 	fp2 t1, t2, one;
 	fp2_init_none( &t1 );
@@ -456,8 +459,10 @@ void curve_from_alpha( curve *F, fp2 *alpha, mpz_t p ) {
 
 void curve_from_Alpha( curve *F, point *Alpha, mpz_t p ) {
 	/* Sets F as the curve having Alpha as two torsion point.
+	Note : doesn't follows the paper which gives ( A-2C/4, C).
+
 	WATCH OUT ! F will be in the form ( A+2C, 4C) !
-	Note : doesn't follows the paper which gives ( A-2C/4, C)
+	
 	*/
 	fp2 t1, t2;
 	fp2_init_none( &t1 );

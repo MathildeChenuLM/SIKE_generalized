@@ -418,7 +418,7 @@ void isoex_Bob( fp2 *jB, pk *PKA, sk *SKB, parameters *param );
 	*/
 
 /* ---------------------------------------------------------
-        					MAIN
+        				MAIN
 -----------------------------------------------------------*/
 
 void key_gen_Alice( pk *PKA, sk *SKA, parameters *param, int regular );
@@ -431,6 +431,7 @@ void key_gen_Bob( pk *PKB, sk *SKB, parameters *param, int regular );
 	sets PKB to the associated public key.
 	Uses algorithms for 2/3 only if regular is set to 1.
 	*/
+
 void key_exchange_Alice( fp2 *jA, sk *SKA, pk *PKB, parameters *param, int regular );
 	/* Key exchange for Alice. Given Bob's public key PKB, Alice's own secret key SKA and
 	public parameters param, sets jA to the shared j-invariant jA.
@@ -441,6 +442,7 @@ void key_exchange_Bob( fp2 *jB, sk *SKB, pk *PKA, parameters *param, int regular
 	public parameters param, sets jB to the shared j-invariant jB.
 	Uses algorithms for 2/3 only if regular is set to 1.
 	*/
+
 void verification( fp2 *jA, fp2 *jB );
 	/* Checks if jA and jB are equal over Fp2.
 	*/

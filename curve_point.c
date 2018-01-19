@@ -290,6 +290,7 @@ void point_print( point *P ) {
 
 int points_are_equal( point *P, point *Q ) {
 	/* Returns 1 if points are equal, and 0 otherwise.
+	
 	Note : Might need some normalization before.
 	*/
 	if( fp2_are_equal(&(P->X), &(Q->X)) == 1 && fp2_are_equal(&(P->Z), &(Q->Z)) == 1 ) {
@@ -302,6 +303,7 @@ int points_are_equal( point *P, point *Q ) {
 
 void point_normalize( point *R, point *P, mpz_t p ) {
 	/* Sets R as ( X/Z, 1 ), where P = ( X, Z ), with Z non zero.
+
 	WATCH OUT ! If Z is 0, sets R as (0, 0).
 	*/
 	if( fp2_is_zero( &(P->Z), p ) ) {
@@ -331,6 +333,7 @@ void point_normalize( point *R, point *P, mpz_t p ) {
 
 void point_normalize_X( fp2 *X, point *P, mpz_t p ) {
 	/* Sets X as  X/Z, where P = ( X, Z ), with Z non zero.
+
 	WATCH OUT ! If Z is 0, sets R as (0, 0).
 	*/
 	if( fp2_is_zero( &(P->Z), p ) ) {
