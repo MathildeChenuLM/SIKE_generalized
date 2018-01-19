@@ -6,7 +6,9 @@ Supersingular isogeny graph key exchange, using prime numbers (2,3) as in the sp
 
 Contains a makefile.
 To run the protocole, type
+
 $ make
+
 $./Main
 
 To run the protocole with the profiler, use "makefile_with_profiling" instead.
