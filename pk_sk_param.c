@@ -14,7 +14,13 @@
 #include <gmp.h>
 #include "Header.h"
 
-
+int strategy_3[158] = { 
+71, 38, 21, 13, 8, 4, 2, 1, 1, 2, 1, 1, 4, 2, 1, 1, 2, 1, 1, 5, 4, 2, 1, 1, 2, 1, 
+1, 2, 1, 1, 1, 9, 5, 3, 2, 1, 1, 1, 1, 2, 1, 1, 1, 4, 2, 1, 1, 1, 2, 1, 1, 17, 9, 
+5, 3, 2, 1, 1, 1, 1, 2, 1, 1, 1, 4, 2, 1, 1, 1, 2, 1, 1, 8, 4, 2, 1, 1, 1, 2, 1, 
+1, 4, 2, 1, 1, 2, 1, 1, 33, 17, 9, 5, 3, 2, 1, 1, 1, 1, 2, 1, 1, 1, 4, 2, 1, 1, 1, 
+2, 1, 1, 8, 4, 2, 1, 1, 1, 2, 1, 1, 4, 2, 1, 1, 2, 1, 1, 16, 8, 4, 2, 1, 1, 1, 2, 
+1, 1, 4, 2, 1, 1, 2, 1, 1, 8, 4, 2, 1, 1, 2, 1, 1, 4, 2, 1, 1, 2, 1, 1 };
 
 /* --------------------------------------------------------
                       PUBLIC KEY
@@ -189,8 +195,11 @@ void isogen_three( pk *PK3, sk *SK3, parameters *param ) {
 	Ladder3pt( &S, 
 		(SK3->secret), &(param->xPB), &(param->xQB), &(param->xRB), &E, (param->p) );
 	
-	three_e_iso( &F, &P1, &P2, &P3, 
-		&F, &S, &P1, &P2, &P3, param->eB, param->p );
+	//three_e_iso( &F, &P1, &P2, &P3, 
+	//	&F, &S, &P1, &P2, &P3, param->eB, param->p );
+	three_e_iso_with_strategy( &F, &P1, &P2, &P3, 
+		&F, &S, &P1, &P2, &P3, param->eB, param->p,
+		strategy_3 );
 
 	point_normalize( &P1, &P1, param->p );
 	point_normalize( &P2, &P2, param->p );

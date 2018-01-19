@@ -241,6 +241,37 @@ void curve_from_Alpha( curve *F,
 	*/
 
 /* ---------------------------------------------------------
+                    STACK_ELEM & STACK PART
+-----------------------------------------------------------*/
+
+typedef struct stack_elem {
+	int e;
+	point P;
+} stack_elem;
+
+typedef struct stack {
+	int capacity;
+	int top;
+	stack_elem* array;
+} stack;
+
+void stack_elem_init( stack_elem* elem, int e, point* P );
+void stack_elem_init_none( stack_elem* elem );
+void stack_elem_print( stack_elem* elem );
+void stack_elem_set( stack_elem* target, stack_elem* source );
+void stack_elem_quick_set( stack_elem* target, int e, point* P );
+void stack_elem_clear( stack_elem* elem );
+
+stack* stack_init( int capacity );
+void stack_clear( stack* S );
+int stack_is_full( struct stack* S );
+int stack_is_empty( struct stack* S );
+void stack_push( stack* S, stack_elem* elem );
+void stack_pop(stack_elem* elem, stack* S);
+void stack_set( stack* S_target, stack* S_source );
+
+
+/* ---------------------------------------------------------
                      ISOGENY PART
 -----------------------------------------------------------*/
 void four_iso_curve( curve *F, fp2 *K1, fp2 *K2, fp2 *K3, 
@@ -279,6 +310,13 @@ void three_e_iso( curve *F, point *phiP1, point *phiP2, point *phiP3,
 	int e3, mpz_t p );
 	/* Sets F as the (3^e3)-isogenous curve, ie F = E/<S>,
 	where S has order 3^e3 in E.
+	WATCH OUT E and F are in the form AplusAmoins !
+	*/
+void three_e_iso_with_strategy( curve *F, point *phiP1, point *phiP2, point *phiP3,
+	curve *E, point *G, point *P1, point *P2, point *P3, 
+	int e3, mpz_t p, int strategy[e3-1] );
+	/* Sets F as the (3^e3)-isogenous curve, ie F = E/<S>,
+	where S has order 3^e3 in E. Uses strategy.
 	WATCH OUT E and F are in the form AplusAmoins !
 	*/
 

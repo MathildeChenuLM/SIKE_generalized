@@ -247,7 +247,103 @@ void three_e_iso( curve *F, point *phiP1, point *phiP2, point *phiP3,
 }
 
 /* ---------------------------------------------------------
-                     GENRALIZED PART
+                    	STATEGY PART
+-----------------------------------------------------------*/
+
+void three_e_iso_with_strategy( curve *F, point *phiP1, point *phiP2, point *phiP3,
+	curve *E, point *G, point *P1, point *P2, point *P3, 
+	int e3, mpz_t p, int strategy[e3-1] ) {
+	/* Sets F as the (3^e3)-isogenous curve, ie F = E/<G>,
+	where S has order 3^e3 in E. Uses strategy.
+	WATCH OUT E and F are in the form AplusAmoins !
+	*/
+	// Some preliminaries.
+	fp2 K1, K2;
+	fp2_init_none(&K1);
+	fp2_init_none(&K2);
+
+	curve_set(F, E);
+
+	point_set(phiP1, P1);
+	point_set(phiP2, P2);
+	point_set(phiP3, P3);
+
+	//1
+	stack* S;
+	stack* S_prime;
+	S = stack_init(200);
+
+	//2
+	stack_elem elem, elem_bis;
+	stack_elem_init_none( &elem_bis );
+	stack_elem_init( &elem, e3, G );
+	stack_push( S, &elem );
+
+	//3
+	int i = 1;
+
+	//4
+	while( !( stack_is_empty(S) ) ) {
+	 	//5
+	 	stack_pop( &elem, S ); // h = elem.e
+	 	//printf( "h : %d\n", elem.e ); //debug
+	 	//6
+	 	if( elem.e == 1 ) {
+	 		//printf("In if !\n"); // debug
+	 		//7
+	 		three_iso_curve( F, &K1, &K2, &(elem.P), p );
+			// 8
+			S_prime = stack_init(200);
+
+			// 9
+			while( !( stack_is_empty(S) ) ) {
+				// 10
+				stack_pop( &elem, S );
+				// 11
+				three_iso_eval( &(elem.P), &K1, &K2, &(elem.P), p );
+				// 12
+				stack_elem_quick_set( &elem_bis, ( (elem.e) - 1), &(elem.P) );
+				stack_push( S_prime, &elem_bis );
+			}
+			// 13
+			stack_set( S, S_prime );
+
+			//14 - 15
+			three_iso_eval( phiP1, &K1, &K2, phiP1, p );
+			three_iso_eval( phiP2, &K1, &K2, phiP2, p );
+			three_iso_eval( phiP3, &K1, &K2, phiP3, p );
+
+			// Release stack S'
+			stack_clear(S_prime);
+		}
+		// 16
+		else if( (strategy[i] > 0) && (strategy[i] < elem.e) ) { // h = elem.e
+			//printf("In else if !\n"); // debug
+			// 17
+			stack_push( S, &elem );
+			// 18
+			xTPL( &(elem.P), &(elem.P), F, p );
+			// 19
+			stack_elem_quick_set( &elem_bis, (elem.e - strategy[i]), &(elem.P) );
+			stack_push( S, &elem_bis );
+			// 20
+			i++;
+		}
+		else {
+			//printf("i : %d\n", i);//debug
+			printf("Sorry, this is an invalid strategy... :'(\n");
+		}
+	} 
+
+	fp2_clear(&K2);
+	fp2_clear(&K1);
+	stack_elem_clear(&elem);
+	stack_elem_clear(&elem_bis);
+	stack_clear(S);
+}
+
+/* ---------------------------------------------------------
+                     GENERALIZED PART
 -----------------------------------------------------------*/
 
 void kernel_point( int d, point ker[d], point *G, curve *F, mpz_t p ) {
